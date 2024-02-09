@@ -3,7 +3,7 @@ import paho.mqtt.client as paho
 import json
 
 def msgHandler(client, userdata, msg):
-    print(f"{msg.topic}: {msg.payload.decode()}")
+    print(f"{msg.topic}: {msg.payload.decode()}", flush=True)
 
 
 def main():
@@ -22,12 +22,12 @@ def main():
     client.subscribe(topic)
 
     try:
-        print("CTRL+C to exit...")
+        print("CTRL+C to exit...", flush=True)
         client.loop_forever()
     except Exception:
-        print("exception found...")
+        print("exception found...", flush=True)
     finally:
-        print("disconnecting...")
+        print("disconnecting...", flush=True)
         client.disconnect()
 
 
