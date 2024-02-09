@@ -1,10 +1,25 @@
 import sys
 import paho.mqtt.client as paho
 import json
+import datetime
+
+firstmsg=True
+time1=0.0
+time2=0.0
 
 def msgHandler(client, userdata, msg):
-    print(f"{msg.topic}: {msg.payload.decode()}", flush=True)
-
+    global firstmsg
+    global time1
+    global time2
+    # print(f"{msg.topic}: {msg.payload.decode()}", flush=True)
+    if firstmsg==True:
+        time1 = datetime.datetime.now()
+        firstmsg=False
+    if "end" in msg.payload.decode():
+        time2 = datetime.datetime.now()
+        elapsed_time_ms = (time2 - time1).total_seconds() * 1000
+        print(f"{msg.topic}: {msg.payload.decode()}", flush=True)
+        print(f"recv client: {elapsed_time_ms}", flush=True)
 
 def main():
     with open('config.json') as f:
@@ -24,8 +39,9 @@ def main():
     try:
         print("CTRL+C to exit...", flush=True)
         client.loop_forever()
-    except Exception:
+    except Exception as e:
         print("exception found...", flush=True)
+        print(e, flush=True)
     finally:
         print("disconnecting...", flush=True)
         client.disconnect()

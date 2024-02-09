@@ -41,7 +41,7 @@ elif [ "$sys" = "win" ]; then
         python pub.py
     elif [ "$command" = "server" ]; then
         echo "Starting Mosquitto server..."
-        mosquitto -c /opt/homebrew/etc/mosquitto/mosquitto.conf -v
+        mosquitto -c "C:\Program Files\mosquitto\mosquitto.conf" 
     fi
 
 fi
